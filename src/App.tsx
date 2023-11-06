@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+
+  const [arr, setArr] = useState([]);
+  useEffect(()=>{
+    async function data() {
+      const res:any = await fetch('https://localhost:7000/api/Garage/GetGarage');
+      const data = await res.json();
+      setArr(data);
+    }
+    data();
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>hi</h1>
+      {
+        arr && arr.map((el, index: number) => {
+          return (
+            <h1 key={index}>{el['garage']}</h1>
+          )})
+      }
     </div>
   );
 }
